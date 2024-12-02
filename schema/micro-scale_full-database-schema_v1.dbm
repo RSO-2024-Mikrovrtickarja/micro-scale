@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+ Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="1.1.0" use-changelog="false" max-obj-count="4"
+	 last-position="0,0" last-zoom="1" scene-rect="0,0,1574.58,1076.8"
+	 default-schema="public" default-owner="postgres"
+	 layers="Default layer"
+	 active-layers="0"
+	 layer-name-colors="#000000"
+	 layer-rect-colors="#b4b4b4"
+	 show-layer-names="false" show-layer-rects="false">
+<database name="micro_scale" is-template="false" allow-conns="true">
+</database>
+
+<schema name="public" layers="0" fill-color="#e1e1e1" name-color="#000000" sql-disabled="true">
+</schema>
+
+<schema name="authentication_service" layers="0" rect-visible="true" fill-color="#a8b05e" name-color="#31363b">
+	<role name="postgres"/>
+</schema>
+
+<schema name="storage_service" layers="0" rect-visible="true" fill-color="#44f3fe" name-color="#31363b">
+	<role name="postgres"/>
+</schema>
+
+<table name="users" layers="0" collapse-mode="2" max-obj-count="3" z-value="0">
+	<schema name="authentication_service"/>
+	<role name="postgres"/>
+	<position x="700" y="180"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="username" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="hashed_password" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<constraint name="pk__users" type="pk-constr" table="authentication_service.users">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+	<constraint name="unique__users__username" type="uq-constr" table="authentication_service.users">
+		<columns names="username" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="images" layers="0" collapse-mode="2" max-obj-count="6" z-value="0">
+	<schema name="storage_service"/>
+	<role name="postgres"/>
+	<position x="480" y="440"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="file_name" not-null="true">
+		<type name="text" length="0"/>
+	</column>
+	<column name="owner_id" not-null="true">
+		<type name="uuid" length="0"/>
+		<comment> <![CDATA[Owner (user) UUID.]]> </comment>
+	</column>
+	<column name="created_at" not-null="true">
+		<type name="timestamp with time zone" length="0" with-timezone="true"/>
+	</column>
+	<column name="remote_s3_object_key" not-null="true">
+		<type name="text" length="0"/>
+		<comment> <![CDATA[Key of the S3 object under which the image file is stored.]]> </comment>
+	</column>
+	<constraint name="pk__images" type="pk-constr" table="storage_service.images">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<table name="jobs" layers="0" collapse-mode="2" max-obj-count="4" z-value="0">
+	<schema name="storage_service"/>
+	<role name="postgres"/>
+	<position x="1040" y="680"/>
+	<column name="id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="image_id" not-null="true">
+		<type name="uuid" length="0"/>
+	</column>
+	<column name="state">
+		<type name="text" length="0"/>
+	</column>
+	<column name="transformed_image_id">
+		<type name="uuid" length="0"/>
+	</column>
+	<constraint name="pk__jobs" type="pk-constr" table="storage_service.jobs">
+		<columns names="id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
+<constraint name="fk__jobs__image_id__images" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="storage_service.images" table="storage_service.jobs">
+	<columns names="image_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<constraint name="fk__jobs__transformed_image_id__image" type="fk-constr" comparison-type="MATCH SIMPLE"
+	 upd-action="NO ACTION" del-action="NO ACTION" ref-table="storage_service.images" table="storage_service.jobs">
+	<columns names="transformed_image_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel__jobs__id" type="relfk" layers="0"
+	 src-table="storage_service.jobs"
+	 dst-table="storage_service.images" reference-fk="fk__jobs__image_id__images"
+	 src-required="false" dst-required="true"/>
+
+<relationship name="rel__jobs__transformed_image" type="relfk" layers="0"
+	 src-table="storage_service.jobs"
+	 dst-table="storage_service.images" reference-fk="fk__jobs__transformed_image_id__image"
+	 src-required="false" dst-required="false">
+	<line>
+		<position x="1100" y="560"/>
+	</line>
+	<label ref-type="name-label">
+		<position x="65.3295" y="-69.1621"/>
+	</label>
+</relationship>
+
+</dbmodel>
