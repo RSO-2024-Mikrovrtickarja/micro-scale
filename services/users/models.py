@@ -1,15 +1,18 @@
-from sqlalchemy import Column, Integer, String, Boolean, func, DateTime
-from sqlalchemy.orm import declarative_base
+from datetime import datetime
+from typing import Optional
+import uuid
+from sqlmodel import Field, SQLModel
 
-Base = declarative_base()
 
-
-class User(Base):
-    __tablename__ = "users"
-
-    id = Column(Integer, primary_key=True, index=True)
-    email = Column(String, unique=True, nullable=False)
-    password = Column(String, nullable=False)
-    created_at = Column(
-        DateTime(timezone=True), server_default=func.current_timestamp(), nullable=False
+class User(SQLModel, table=True):
+    id: Optional[uuid.UUID] = Field(
+        primary_key=True, index=True, default_factory=uuid.uuid4
     )
+
+    username: str = Field(unique=True)
+
+    email: str = Field(unique=True)
+
+    password: str
+
+    created_at: datetime
