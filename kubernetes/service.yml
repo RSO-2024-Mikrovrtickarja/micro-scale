@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+    name: microscale-service
+spec:
+    selector:
+        app: microscale-deployment
+    ports:
+      - protocol: TCP
+        port: 80
+        targetPort: 8000
+      - protocol: TCP
+        port: 8001
+        targetPort: 8001
+      - protocol: TCP
+        port: 8002
+        targetPort: 8002
+    type: LoadBalancer
