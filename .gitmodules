@@ -1,0 +1,12 @@
+[submodule "services/worker"]
+	path = services/worker
+	url = git@github.com:RSO-2024-Mikrovrtickarja/worker-microservice.git
+[submodule "services/users"]
+	path = services/users
+	url = git@github.com:RSO-2024-Mikrovrtickarja/users-microservice.git
+[submodule "services/storage"]
+	path = services/storage
+	url = git@github.com:RSO-2024-Mikrovrtickarja/photo-storage-microservice.git
+[submodule "services/frontend"]
+	path = services/frontend
+	url = git@github.com:RSO-2024-Mikrovrtickarja/frontend-microservice.git
