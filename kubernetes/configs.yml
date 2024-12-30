@@ -1,0 +1,23 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: microscale-config
+data:
+    users.database.hostname: microscale-users.postgres.database.azure.com
+    users.database.port: "5432"
+    users.database.username: users_admin
+    users.database.password: Guts-Chasing-Turbine-Backlight3
+    users.database.database_name: microscale_users
+    storage.database.hostname: microscale-photo-storage.postgres.database.azure.com
+    storage.database.port: "5432"
+    storage.database.username: photo_storage_admin
+    storage.database.password: Skeptic-Defrost5-Glade-Mace
+    storage.database.database_name: microscale_storage
+    storage.backend: s3
+    storage.azure_blob.url: https://microscaleimages.blob.core.windows.net
+    storage.azure_blob.container_name: images
+    storage.azure_blob.shared_key: yourkeyhere
+    jwt.secret: Clover-Able-Favorable2-Onslaught
+    jwt.algorithm: HS256
+    jwt.access_token_expire_minutes: "30"
+    zmq.port: "9901"

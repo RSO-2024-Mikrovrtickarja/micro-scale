@@ -16,16 +16,141 @@ spec:
         spec:
             containers:
               - name: users
-                image: TODO
+                image: microscalecontainerregistry.azurecr.io/microscale-users:main
                 ports:
                 - containerPort: 8002
+                env:
+                    - name: DATABASE_HOSTNAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: users.database.hostname
+                    - name: DATABASE_PORT
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: users.database.port
+                    - name: DATABASE_USERNAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: users.database.username
+                    - name: DATABASE_PASSWORD
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: users.database.password
+                    - name: DATABASE_NAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: users.database.database_name
+                    - name: JWT_SECRET_KEY
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: jwt.secret
+                    - name: JWT_ALGORITHM
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: jwt.algorithm
+                    - name: JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: jwt.access_token_expire_minutes
+
               - name: storage
-                image: TODO
+                image: microscalecontainerregistry.azurecr.io/microscale-storage:main
                 ports:
                 - containerPort: 8001
+                env:
+                    - name: DATABASE_HOSTNAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.database.hostname
+                    - name: DATABASE_PORT
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.database.port
+                    - name: DATABASE_USERNAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.database.username
+                    - name: DATABASE_PASSWORD
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.database.password
+                    - name: DATABASE_NAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.database.database_name
+                    - name: JWT_SECRET_KEY
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: jwt.secret
+                    - name: JWT_ALGORITHM
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: jwt.algorithm
+                    - name: ZMQ_HOST
+                      value: localhost
+                    - name: ZMQ_PORT
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: zmq.port
+                    - name: STORAGE_BACKEND
+                      value: azure
+                    - name: AZURE_BLOB_STORAGE_URL
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.azure_blob.url
+                    - name: AZURE_BLOB_STORAGE_CONTAINER_NAME
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.azure_blob.container_name
+                    - name: AZURE_BLOB_STORAGE_SHARED_KEY
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: storage.azure_blob.shared_key
+
               - name: worker
-                image: TODO
+                image: microscalecontainerregistry.azurecr.io/microscale-worker:main
+                env:
+                    - name: ZMQ_HOST
+                      value: localhost
+                    - name: ZMQ_PORT
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: zmq.port
+                    - name: PHOTO_STORAGE_HOST
+                      value: localhost
+                    - name: PHOTO_STORAGE_PORT
+                      value: "8001"
+
               - name: frontend
-                image: TODO
+                image: microscalecontainerregistry.azurecr.io/microscale-frontend:main
                 ports:
                 - containerPort: 8000
+                env:
+                    - name: USERS_HOST
+                      value: localhost
+                    - name: USERS_PORT
+                      value: "8002"
+                    - name: PHOTO_STORAGE_HOST
+                      value: localhost
+                    - name: PHOTO_STORAGE_PORT
+                      value: "8001"
