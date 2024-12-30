@@ -9,10 +9,13 @@ spec:
       - protocol: TCP
         port: 80
         targetPort: 8000
+        name: frontend-port
       - protocol: TCP
         port: 8001
         targetPort: 8001
+        name: storage-port
       - protocol: TCP
         port: 8002
         targetPort: 8002
+        name: users-port
     type: LoadBalancer
