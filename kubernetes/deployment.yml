@@ -19,6 +19,7 @@ spec:
                 image: microscalecontainerregistry.azurecr.io/microscale-users:main
                 ports:
                 - containerPort: 8002
+                  name: users-port
                 env:
                     - name: DATABASE_HOSTNAME
                       valueFrom:
@@ -65,6 +66,7 @@ spec:
                 image: microscalecontainerregistry.azurecr.io/microscale-storage:main
                 ports:
                 - containerPort: 8001
+                  name: storage-port
                 env:
                     - name: BASE_HTTP_URL
                       valueFrom:
@@ -150,6 +152,7 @@ spec:
                 image: microscalecontainerregistry.azurecr.io/microscale-frontend:main
                 ports:
                 - containerPort: 8000
+                  name: frontend-port
                 env:
                     - name: USERS_HOST
                       value: localhost
