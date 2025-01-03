@@ -3,6 +3,7 @@ kind: ConfigMap
 metadata:
     name: microscale-config
 data:
+    base_http_url: TODO
     users.database.hostname: microscale-users.postgres.database.azure.com
     users.database.port: "5432"
     users.database.username: users_admin
@@ -16,7 +17,7 @@ data:
     storage.backend: s3
     storage.azure_blob.url: https://microscaleimages.blob.core.windows.net
     storage.azure_blob.container_name: images
-    storage.azure_blob.shared_key: yourkeyhere
+    storage.azure_blob.shared_key: TODO
     jwt.secret: Clover-Able-Favorable2-Onslaught
     jwt.algorithm: HS256
     jwt.access_token_expire_minutes: "30"

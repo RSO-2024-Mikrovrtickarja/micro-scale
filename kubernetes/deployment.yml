@@ -66,6 +66,11 @@ spec:
                 ports:
                 - containerPort: 8001
                 env:
+                    - name: BASE_HTTP_URL
+                      valueFrom:
+                        configMapKeyRef:
+                            name: microscale-config
+                            key: base_http_url
                     - name: DATABASE_HOSTNAME
                       valueFrom:
                         configMapKeyRef:
