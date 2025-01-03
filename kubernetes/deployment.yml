@@ -20,6 +20,12 @@ spec:
                 ports:
                 - containerPort: 8002
                   name: users-port
+                livenessProbe:
+                    httpGet:
+                      path: /health
+                      port: 8002
+                    initialDelaySeconds: 4
+                    periodSeconds: 15
                 env:
                     - name: DATABASE_HOSTNAME
                       valueFrom:
@@ -67,6 +73,12 @@ spec:
                 ports:
                 - containerPort: 8001
                   name: storage-port
+                livenessProbe:
+                    httpGet:
+                      path: /health
+                      port: 8001
+                    initialDelaySeconds: 4
+                    periodSeconds: 15
                 env:
                     - name: BASE_HTTP_URL
                       valueFrom:
@@ -135,6 +147,12 @@ spec:
 
               - name: worker
                 image: microscalecontainerregistry.azurecr.io/microscale-worker:main
+                livenessProbe:
+                    httpGet:
+                      path: /health
+                      port: 8005
+                    initialDelaySeconds: 4
+                    periodSeconds: 15
                 env:
                     - name: ZMQ_HOST
                       value: localhost
@@ -153,6 +171,12 @@ spec:
                 ports:
                 - containerPort: 8000
                   name: frontend-port
+                livenessProbe:
+                    httpGet:
+                      path: /health
+                      port: 8000
+                    initialDelaySeconds: 4
+                    periodSeconds: 15
                 env:
                     - name: USERS_HOST
                       value: localhost
